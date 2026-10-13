@@ -1,0 +1,441 @@
+<section class="py-4" style="background: #f8fafc; min-height: 90vh;">
+    <div class="container-fluid px-4" style="max-width: 1300px;">
+
+        <div class="p-4 mb-4 text-white" style="background: linear-gradient(135deg, #1e1b4b, #4c1d95); border-radius: 20px;">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <div>
+                    <span class="badge mb-2" style="background: #ef4444;">ADMIN</span>
+                    <h1 class="fw-bold mb-0">Panel de Administración</h1>
+                    <p class="mb-0" style="color: #c4b5fd;">Gestiona usuarios, créditos y operaciones</p>
+                </div>
+                <button (click)="logout()" class="btn fw-bold" style="background: rgba(255,255,255,.15); color: #fff; border-radius: 10px;">
+                    <i class="bi bi-box-arrow-right"></i> Cerrar sesión
+                </button>
+            </div>
+        </div>
+
+        <div class="row g-3 mb-4">
+            <div class="col-6 col-lg-3">
+                <div class="bg-white p-3" style="border-radius: 14px; border: 1px solid #e2e8f0;">
+                    <div class="text-muted fw-bold mb-1" style="font-size: 11px;">USUARIOS</div>
+                    <div class="fw-bold" style="font-size: 1.8rem; color: #0f172a;">{{ users.length }}</div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="bg-white p-3" style="border-radius: 14px; border: 1px solid #e2e8f0;">
+                    <div class="text-muted fw-bold mb-1" style="font-size: 11px;">VOLUMEN MOVIDO</div>
+                    <div class="fw-bold" style="font-size: 1.5rem; color: #059669;">S/ {{ montoTotalMovido | number:'1.2-2' }}</div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="bg-white p-3" style="border-radius: 14px; border: 1px solid #e2e8f0;">
+                    <div class="text-muted fw-bold mb-1" style="font-size: 11px;">COMISIONES</div>
+                    <div class="fw-bold" style="font-size: 1.5rem; color: #7c3aed;">S/ {{ comisionesGeneradas | number:'1.2-2' }}</div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="bg-white p-3" style="border-radius: 14px; border: 1px solid #e2e8f0;">
+                    <div class="text-muted fw-bold mb-1" style="font-size: 11px;">CRÉDITOS PENDIENTES</div>
+                    <div class="fw-bold" style="font-size: 1.8rem; color: #d97706;">{{ pendientes }}</div>
+                </div>
+            </div>
+        </div>
+
+        <ul class="nav nav-pills mb-3 gap-2 flex-wrap">
+            <li class="nav-item">
+                <button class="nav-link fw-bold" [style.background]="tab === 'dashboard' ? '#7c3aed' : '#fff'"
+                        [style.color]="tab === 'dashboard' ? '#fff' : '#334155'" (click)="tab = 'dashboard'">
+                    <i class="bi bi-graph-up"></i> Dashboard
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link fw-bold" [style.background]="tab === 'usuarios' ? '#7c3aed' : '#fff'"
+                        [style.color]="tab === 'usuarios' ? '#fff' : '#334155'" (click)="tab = 'usuarios'">
+                    <i class="bi bi-people-fill"></i> Usuarios
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link fw-bold" [style.background]="tab === 'creditos' ? '#7c3aed' : '#fff'"
+                        [style.color]="tab === 'creditos' ? '#fff' : '#334155'" (click)="tab = 'creditos'">
+                    <i class="bi bi-cash-stack"></i> Créditos
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link fw-bold" [style.background]="tab === 'transacciones' ? '#7c3aed' : '#fff'"
+                        [style.color]="tab === 'transacciones' ? '#fff' : '#334155'" (click)="tab = 'transacciones'">
+                    <i class="bi bi-receipt"></i> Transacciones
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link fw-bold" [style.background]="tab === 'entidades' ? '#7c3aed' : '#fff'"
+                        [style.color]="tab === 'entidades' ? '#fff' : '#334155'" (click)="tab = 'entidades'">
+                    <i class="bi bi-bank2"></i> Entidades
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link fw-bold" [style.background]="tab === 'auditoria' ? '#7c3aed' : '#fff'"
+                        [style.color]="tab === 'auditoria' ? '#fff' : '#334155'" (click)="tab = 'auditoria'">
+                    <i class="bi bi-shield-check"></i> Auditoría
+                </button>
+            </li>
+        </ul>
+
+        <div *ngIf="tab === 'dashboard'">
+            <div class="row g-3">
+                <div class="col-lg-8">
+                    <div class="bg-white p-4" style="border-radius: 16px; border: 1px solid #e2e8f0;">
+                        <h5 class="fw-bold mb-3"><i class="bi bi-graph-up-arrow"></i> Transacciones últimos 7 días</h5>
+                        <div style="height: 300px;">
+                            <canvas #graficoSemana></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="bg-white p-4" style="border-radius: 16px; border: 1px solid #e2e8f0;">
+                        <h5 class="fw-bold mb-3"><i class="bi bi-pie-chart"></i> Distribución por entidad</h5>
+                        <div style="height: 300px;">
+                            <canvas #graficoEntidades></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-3 mt-1">
+                <div class="col-md-6">
+                    <div class="bg-white p-4" style="border-radius: 16px; border: 1px solid #e2e8f0;">
+                        <h5 class="fw-bold mb-3"><i class="bi bi-clock-history"></i> Últimas transacciones</h5>
+                        <div *ngFor="let t of transacciones.slice(0, 5)" class="d-flex justify-content-between py-2 border-bottom">
+                            <div>
+                                <div class="fw-bold" style="font-size: 13px;">{{ t.usuario }}</div>
+                                <div class="text-muted" style="font-size: 11px;">{{ t.tipo }} → {{ t.destino }}</div>
+                            </div>
+                            <div class="fw-bold" style="color: #7c3aed;">S/ {{ t.monto }}</div>
+                        </div>
+                        <div *ngIf="transacciones.length === 0" class="text-center text-muted py-3">
+                            No hay transacciones
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="bg-white p-4" style="border-radius: 16px; border: 1px solid #e2e8f0;">
+                        <h5 class="fw-bold mb-3"><i class="bi bi-exclamation-triangle"></i> Alertas</h5>
+                        <div class="alert alert-warning py-2 mb-2" style="border-radius: 10px;">
+                            <strong>{{ pendientes }}</strong> créditos pendientes de aprobación
+                        </div>
+                        <div class="alert alert-info py-2 mb-0" style="border-radius: 10px;">
+                            <strong>{{ entidades.length }}</strong> entidades vinculadas en el sistema
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="tab === 'usuarios'" class="bg-white p-4" style="border-radius: 16px; border: 1px solid #e2e8f0;">
+            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                <h3 class="fw-bold mb-0"><i class="bi bi-people-fill"></i> Usuarios registrados</h3>
+                <input type="text" [(ngModel)]="busquedaUser" class="form-control" placeholder="🔍 Buscar por nombre, email o celular"
+                       style="border-radius: 10px; border: 2px solid #e2e8f0; padding: .5rem 1rem; max-width: 320px;">
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead style="background: #f8fafc;">
+                        <tr><th>ID</th><th>Nombre</th><th>Email</th><th>Celular</th><th>Rol</th><th>Estado</th><th>Acciones</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let u of usersFiltrados">
+                            <td>{{ u.id }}</td>
+                            <td class="fw-bold">{{ u.nombre }}</td>
+                            <td>{{ u.email }}</td>
+                            <td>{{ u.phone }}</td>
+                            <td><span class="badge" [ngClass]="u.role === 'admin' ? 'bg-danger' : 'bg-primary'">{{ u.role }}</span></td>
+                            <td><span class="badge" [ngClass]="u.activo ? 'bg-success' : 'bg-secondary'">{{ u.activo ? 'Activo' : 'Inactivo' }}</span></td>
+                            <td>
+                                <div class="d-flex gap-1">
+                                    <button (click)="verDetalle(u)" class="btn btn-sm fw-bold"
+                                            style="background: #ede9fe; color: #7c3aed; border-radius: 8px;"
+                                            title="Ver detalle">
+                                        <i class="bi bi-eye-fill"></i> Detalle
+                                    </button>
+                                    <button (click)="toggleUser(u)" class="btn btn-sm" [ngClass]="u.activo ? 'btn-outline-danger' : 'btn-outline-success'">
+                                        {{ u.activo ? 'Desactivar' : 'Activar' }}
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div *ngIf="tab === 'creditos'" class="bg-white p-4" style="border-radius: 16px; border: 1px solid #e2e8f0;">
+            <h3 class="fw-bold mb-3"><i class="bi bi-cash-stack"></i> Solicitudes de crédito</h3>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead style="background: #f8fafc;">
+                        <tr><th>ID</th><th>Usuario</th><th>Monto</th><th>Plazo</th><th>Tasa</th><th>Motivo</th><th>Estado</th><th>Acciones</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let c of creditos">
+                            <td>{{ c.id }}</td>
+                            <td class="fw-bold">{{ c.usuario }}</td>
+                            <td class="fw-bold">S/ {{ c.monto }}</td>
+                            <td>{{ c.plazo }} meses</td>
+                            <td>{{ c.tasa }}%</td>
+                            <td>{{ c.motivo }}</td>
+                            <td>
+                                <span class="badge" [ngClass]="c.estado === 'aprobado' ? 'bg-success' : c.estado === 'rechazado' ? 'bg-danger' : 'bg-warning text-dark'">
+                                    {{ c.estado }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="d-flex gap-1" *ngIf="c.estado === 'pendiente'">
+                                    <button (click)="aprobarCredito(c.id)" class="btn btn-sm btn-success fw-bold">✓ Aprobar</button>
+                                    <button (click)="rechazarCredito(c.id)" class="btn btn-sm btn-danger fw-bold">✗ Rechazar</button>
+                                </div>
+                                <span *ngIf="c.estado !== 'pendiente'" class="text-muted" style="font-size: 12px;">Ya procesado</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div *ngIf="tab === 'transacciones'" class="bg-white p-4" style="border-radius: 16px; border: 1px solid #e2e8f0;">
+            <h3 class="fw-bold mb-3"><i class="bi bi-receipt"></i> Todas las transacciones</h3>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead style="background: #f8fafc;">
+                        <tr><th>ID</th><th>Usuario</th><th>Tipo</th><th>Monto</th><th>Destino</th><th>Estado</th><th>Fecha</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let t of transacciones">
+                            <td>{{ t.id }}</td>
+                            <td class="fw-bold">{{ t.usuario }}</td>
+                            <td>{{ t.tipo }}</td>
+                            <td class="fw-bold">S/ {{ t.monto }}</td>
+                            <td>{{ t.destino }}</td>
+                            <td><span class="badge bg-success">{{ t.estado }}</span></td>
+                            <td>{{ t.fecha }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div *ngIf="tab === 'entidades'" class="bg-white p-4" style="border-radius: 16px; border: 1px solid #e2e8f0;">
+            <h3 class="fw-bold mb-3"><i class="bi bi-bank2"></i> Entidades vinculadas ({{ entidades.length }})</h3>
+            <div class="row g-3">
+                <div class="col-md-4" *ngFor="let e of entidades">
+                    <div class="p-3" 
+                         [style.borderLeft]="'4px solid ' + (e.color || '#7c3aed')"
+                         style="background: #f8fafc; border-radius: 12px;">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <div class="fw-bold" style="font-size: 1.1rem;">{{ e.codigo }}</div>
+                            <span *ngIf="e.principal" class="badge bg-warning text-dark">★</span>
+                        </div>
+                        <div class="text-muted" style="font-size: 13px;">{{ e.nombre }}</div>
+                        <div class="text-muted" style="font-size: 12px; font-family: monospace;">{{ e.numero }}</div>
+                        <div class="fw-bold mt-2" style="color: #059669; font-size: 1.2rem;">S/ {{ e.saldo }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="tab === 'auditoria'" class="bg-white p-4" style="border-radius: 16px; border: 1px solid #e2e8f0;">
+            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                <div>
+                    <h3 class="fw-bold mb-0"><i class="bi bi-shield-check"></i> Auditoría del sistema</h3>
+                    <p class="text-muted mb-0 small">Registro de todas las acciones ({{ logs.length }} eventos)</p>
+                </div>
+                <button (click)="limpiarLogs()" class="btn btn-sm fw-bold"
+                        style="background: #fee2e2; color: #dc2626; border-radius: 10px;">
+                    <i class="bi bi-trash"></i> Limpiar logs
+                </button>
+            </div>
+
+            <div *ngIf="logs.length === 0" class="text-center text-muted py-5">
+                <i class="bi bi-clipboard-x" style="font-size: 3rem;"></i>
+                <p class="mb-0 mt-2">No hay logs registrados</p>
+            </div>
+
+            <div *ngIf="logs.length > 0" style="max-height: 600px; overflow-y: auto;">
+                <div *ngFor="let log of logs" class="d-flex gap-3 p-3 border-bottom">
+                    <div class="d-flex align-items-center justify-content-center flex-shrink-0"
+                         [style.background]="auditoriaService.colorPorTipo(log.tipo) + '20'"
+                         [style.color]="auditoriaService.colorPorTipo(log.tipo)"
+                         style="width: 40px; height: 40px; border-radius: 10px; font-size: 18px;">
+                        <i class="bi" [ngClass]="auditoriaService.iconoPorTipo(log.tipo)"></i>
+                    </div>
+                    <div class="flex-grow-1 min-w-0">
+                        <div class="d-flex justify-content-between align-items-start gap-2">
+                            <div>
+                                <p class="fw-bold mb-0" style="font-size: 13px;">{{ log.accion }}</p>
+                                <p class="text-muted mb-0" style="font-size: 12px;">{{ log.detalle }}</p>
+                                <small class="text-muted" style="font-size: 11px;">
+                                    Por: <b>{{ log.usuario }}</b> · IP: {{ log.ip }}
+                                </small>
+                            </div>
+                            <span class="text-muted flex-shrink-0" style="font-size: 11px;">
+                                {{ log.fecha | date:'short' }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="mostrarDetalle" 
+             class="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+             style="background: rgba(0,0,0,.5); z-index: 9999; padding: 1rem;"
+             (click)="cerrarDetalle()">
+            <div class="bg-white" 
+                 style="border-radius: 20px; max-width: 800px; width: 100%; max-height: 90vh; overflow-y: auto;"
+                 (click)="$event.stopPropagation()">
+                
+                <div class="p-4 text-white" style="background: linear-gradient(135deg, #1e1b4b, #4c1d95); border-radius: 20px 20px 0 0;">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="d-flex align-items-center justify-content-center fw-bold"
+                                 style="width: 60px; height: 60px; background: rgba(255,255,255,.15); border-radius: 16px; font-size: 1.5rem;">
+                                {{ usuarioSeleccionado?.nombre?.charAt(0)?.toUpperCase() }}
+                            </div>
+                            <div>
+                                <h3 class="fw-bold mb-1">{{ usuarioSeleccionado?.nombre }}</h3>
+                                <p class="mb-0" style="color: #c4b5fd; font-size: 13px;">
+                                    ID: {{ usuarioSeleccionado?.id }} · 
+                                    <span class="badge" [ngClass]="usuarioSeleccionado?.role === 'admin' ? 'bg-danger' : 'bg-primary'" style="font-size: 10px;">
+                                        {{ usuarioSeleccionado?.role }}
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <button (click)="cerrarDetalle()" class="btn btn-sm text-white"
+                                style="background: rgba(255,255,255,.15); border-radius: 8px;">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="p-4">
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <div class="p-3" style="background: #f8fafc; border-radius: 12px;">
+                                <div class="text-muted fw-bold" style="font-size: 10px;">CORREO</div>
+                                <div class="fw-bold" style="font-size: 13px;">{{ usuarioSeleccionado?.email }}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3" style="background: #f8fafc; border-radius: 12px;">
+                                <div class="text-muted fw-bold" style="font-size: 10px;">CELULAR</div>
+                                <div class="fw-bold" style="font-size: 13px;">{{ usuarioSeleccionado?.phone }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-4">
+                            <div class="p-3 text-center" style="background: #d1fae5; border-radius: 12px;">
+                                <div style="font-size: 11px; color: #047857; font-weight: 700;">SALDO</div>
+                                <div class="fw-bold" style="font-size: 1.3rem; color: #047857;">
+                                    S/ {{ getSaldoUsuario(usuarioSeleccionado.id) | number:'1.2-2' }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="p-3 text-center" style="background: #ede9fe; border-radius: 12px;">
+                                <div style="font-size: 11px; color: #6d28d9; font-weight: 700;">ENTIDADES</div>
+                                <div class="fw-bold" style="font-size: 1.3rem; color: #6d28d9;">
+                                    {{ getEntidadesUsuario(usuarioSeleccionado.id).length }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="p-3 text-center" style="background: #fef3c7; border-radius: 12px;">
+                                <div style="font-size: 11px; color: #92400e; font-weight: 700;">TRANSACCIONES</div>
+                                <div class="fw-bold" style="font-size: 1.3rem; color: #92400e;">
+                                    {{ getTransaccionesUsuario(usuarioSeleccionado.id).length }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5 class="fw-bold mb-2" style="font-size: 14px;">
+                        <i class="bi bi-bank2"></i> Entidades vinculadas
+                    </h5>
+                    <div *ngIf="getEntidadesUsuario(usuarioSeleccionado.id).length === 0" class="text-muted small mb-3">
+                        No tiene entidades vinculadas
+                    </div>
+                    <div class="row g-2 mb-4">
+                        <div class="col-md-6" *ngFor="let e of getEntidadesUsuario(usuarioSeleccionado.id)">
+                            <div class="d-flex align-items-center gap-2 p-2" style="background: #f8fafc; border-radius: 10px;">
+                                <div class="d-flex align-items-center justify-content-center text-white fw-bold"
+                                     [style.background]="e.color || '#7c3aed'"
+                                     style="width: 32px; height: 32px; border-radius: 8px; font-size: 12px;">
+                                    {{ e.codigo[0] }}
+                                </div>
+                                <div class="flex-grow-1 min-w-0">
+                                    <div class="fw-bold" style="font-size: 12px;">{{ e.codigo }}</div>
+                                    <div class="text-muted" style="font-size: 10px; font-family: monospace;">{{ e.numero }}</div>
+                                </div>
+                                <div class="fw-bold" style="color: #059669; font-size: 12px;">S/ {{ e.saldo }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5 class="fw-bold mb-2" style="font-size: 14px;">
+                        <i class="bi bi-cash-stack"></i> Créditos solicitados
+                    </h5>
+                    <div *ngIf="getCreditosUsuario(usuarioSeleccionado.id).length === 0" class="text-muted small mb-3">
+                        No tiene créditos
+                    </div>
+                    <div *ngFor="let c of getCreditosUsuario(usuarioSeleccionado.id)" 
+                         class="d-flex justify-content-between align-items-center p-2 mb-2"
+                         style="background: #f8fafc; border-radius: 10px;">
+                        <div>
+                            <div class="fw-bold" style="font-size: 13px;">S/ {{ c.monto }}</div>
+                            <div class="text-muted" style="font-size: 11px;">{{ c.motivo }} · {{ c.plazo }} meses</div>
+                        </div>
+                        <span class="badge" 
+                              [ngClass]="c.estado === 'aprobado' ? 'bg-success' : c.estado === 'rechazado' ? 'bg-danger' : 'bg-warning text-dark'">
+                            {{ c.estado }}
+                        </span>
+                    </div>
+
+                    <h5 class="fw-bold mb-2 mt-4" style="font-size: 14px;">
+                        <i class="bi bi-receipt"></i> Últimas transacciones
+                    </h5>
+                    <div *ngIf="getTransaccionesUsuario(usuarioSeleccionado.id).length === 0" class="text-muted small">
+                        No tiene transacciones
+                    </div>
+                    <div *ngFor="let t of getTransaccionesUsuario(usuarioSeleccionado.id).slice(0, 5)" 
+                         class="d-flex justify-content-between py-2 border-bottom"
+                         style="font-size: 12px;">
+                        <div>
+                            <div class="fw-bold">{{ t.tipo }} → {{ t.destino }}</div>
+                            <div class="text-muted" style="font-size: 10px;">{{ t.fecha }} · {{ t.concepto || 'Sin concepto' }}</div>
+                        </div>
+                        <div class="fw-bold" style="color: #7c3aed;">S/ {{ t.monto }}</div>
+                    </div>
+                </div>
+
+                <div class="p-3 border-top" style="border-radius: 0 0 20px 20px; background: #f8fafc;">
+                    <div class="d-flex justify-content-end gap-2">
+                        <button (click)="cerrarDetalle()" class="btn fw-bold"
+                                style="border: 2px solid #e2e8f0; border-radius: 10px; color: #334155;">
+                            Cerrar
+                        </button>
+                        <button (click)="toggleUser(usuarioSeleccionado)" 
+                                class="btn fw-bold text-white"
+                                [style.background]="usuarioSeleccionado?.activo ? '#dc2626' : '#059669'"
+                                style="border-radius: 10px;">
+                            <i class="bi" [ngClass]="usuarioSeleccionado?.activo ? 'bi-person-x-fill' : 'bi-person-check-fill'"></i>
+                            {{ usuarioSeleccionado?.activo ? 'Desactivar usuario' : 'Activar usuario' }}
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>

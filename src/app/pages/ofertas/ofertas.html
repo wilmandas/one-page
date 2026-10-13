@@ -1,0 +1,61 @@
+<section class="py-4" style="background: #f8fafc; min-height: 80vh;">
+    <div class="container" style="max-width: 1200px;">
+
+        <div class="mb-4">
+            <h1 class="fw-bold mb-1" style="color: #0f172a; font-size: 2rem;">
+                🔥 Ofertas del día
+            </h1>
+            <p class="text-muted mb-0">Los mejores descuentos en tecnología y más</p>
+        </div>
+
+        <div *ngIf="cargando" class="text-center py-5">
+            <div class="spinner-border text-primary"></div>
+        </div>
+
+        <div *ngIf="!cargando && ofertas.length === 0" class="text-center py-5 bg-white" style="border-radius: 16px; border: 1px solid #e2e8f0;">
+            <div style="font-size: 3rem;">🏷️</div>
+            <p class="text-muted mt-2 mb-0">No hay ofertas disponibles</p>
+        </div>
+
+        <div class="row g-3" *ngIf="!cargando && ofertas.length > 0">
+            <div class="col-md-6 col-lg-4 col-xl-3" *ngFor="let p of ofertas">
+                <div class="bg-white h-100 d-flex flex-column position-relative" style="border-radius: 16px; border: 1px solid #e2e8f0; overflow: hidden;">
+                    
+                    <!-- Badge descuento -->
+                    <div class="position-absolute top-0 end-0 m-2 px-2 py-1 fw-bold text-white"
+                         style="background: #dc2626; border-radius: 8px; font-size: 12px; z-index: 10;">
+                        -{{ p.descuento }}%
+                    </div>
+
+                    <div style="height: 200px; overflow: hidden; background: #f1f5f9;">
+                        <img [src]="p.imagen" [alt]="p.nombre" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <span class="badge align-self-start mb-2" style="background: #ede9fe; color: #7c3aed; font-size: 11px;">
+                            {{ p.categoria }}
+                        </span>
+                        <h6 class="fw-bold mb-1" style="color: #0f172a; font-size: 14px;">{{ p.nombre }}</h6>
+                        <p class="text-muted mb-2" style="font-size: 12px;">{{ p.descripcion }}</p>
+                        
+                        <div class="mt-auto">
+                            <div class="mb-2">
+                                <span class="text-muted text-decoration-line-through" style="font-size: 13px;">
+                                    S/ {{ p.precio | number:'1.2-2' }}
+                                </span>
+                                <span class="fw-bold ms-2" style="color: #dc2626; font-size: 1.3rem;">
+                                    S/ {{ precioFinal(p) | number:'1.2-2' }}
+                                </span>
+                            </div>
+                            <button (click)="agregarAlCarrito(p)" class="btn w-100 fw-bold text-white"
+                                    style="background: #dc2626; border-radius: 10px; font-size: 13px;">
+                                <i class="bi bi-cart-plus"></i> Aprovechar oferta
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

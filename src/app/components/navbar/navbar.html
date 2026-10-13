@@ -1,0 +1,190 @@
+<nav class="navbar-futuristic">
+    <div class="nav-container">
+        
+        <!-- Logo -->
+        <a class="nav-logo" [routerLink]="isLoggedIn ? '/dashboard' : '/'">
+            <div class="logo-box">O</div>
+            <div class="logo-text">
+                <div class="logo-name">ONE-PAGE</div>
+                <div class="logo-sub d-none d-sm-block">Tu billetera universal</div>
+            </div>
+        </a>
+
+        <!-- Desktop Menu -->
+        <ul class="nav-menu-desktop d-none d-lg-flex">
+            <li>
+                <a [routerLink]="isLoggedIn ? '/dashboard' : '/'" routerLinkActive="active">
+                    <i class="bi bi-house-door-fill"></i> Inicio
+                </a>
+            </li>
+            <li>
+                <a routerLink="/productos" routerLinkActive="active">
+                    <i class="bi bi-grid-fill"></i> Productos
+                </a>
+            </li>
+            <li>
+                <a routerLink="/ofertas" routerLinkActive="active">
+                    <i class="bi bi-fire"></i> Ofertas
+                </a>
+            </li>
+            <li>
+                <a routerLink="/tienda" routerLinkActive="active">
+                    <i class="bi bi-cart-fill"></i> Tienda
+                </a>
+            </li>
+            <li>
+                <a routerLink="/contacto" routerLinkActive="active">
+                    <i class="bi bi-envelope-fill"></i> Contacto
+                </a>
+            </li>
+            <li *ngIf="isLoggedIn && !isAdmin">
+                <a routerLink="/dashboard" routerLinkActive="active">
+                    <i class="bi bi-speedometer2"></i> Dashboard
+                </a>
+            </li>
+            <li *ngIf="isAdmin">
+                <a routerLink="/admin" routerLinkActive="active" class="admin-link">
+                    <i class="bi bi-shield-lock-fill"></i> Admin
+                </a>
+            </li>
+        </ul>
+
+        <!-- Acciones derecha -->
+        <div class="nav-actions">
+            
+            <!-- Campanita -->
+            <div class="notification-wrapper" *ngIf="isLoggedIn && !isAdmin">
+                <button class="notification-btn" (click)="togglePanel()">
+                    <i class="bi bi-bell-fill"></i>
+                    <span *ngIf="noLeidas > 0" class="notification-badge">
+                        {{ noLeidas > 9 ? '9+' : noLeidas }}
+                    </span>
+                </button>
+
+                <div *ngIf="mostrarPanel" class="notification-panel">
+                    <div class="panel-header">
+                        <div>
+                            <h6 class="mb-0">Notificaciones</h6>
+                            <small>{{ notificaciones.length }} en total</small>
+                        </div>
+                        <div class="d-flex gap-1">
+                            <button (click)="limpiarNotificaciones()" class="panel-btn-trash">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                            <button (click)="cerrarPanel()" class="panel-btn-close">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <div *ngIf="notificaciones.length === 0" class="empty-panel">
+                            <i class="bi bi-bell-slash"></i>
+                            <p>Sin notificaciones</p>
+                        </div>
+
+                        <div *ngFor="let n of notificaciones" 
+                             class="notification-item"
+                             [class.unread]="!n.leida">
+                            <div class="notif-icon"
+                                 [style.background]="notifService.colorPorTipo(n.tipo) + '20'"
+                                 [style.color]="notifService.colorPorTipo(n.tipo)">
+                                <i class="bi" [ngClass]="n.icono"></i>
+                            </div>
+                            <div class="notif-content">
+                                <div class="notif-head">
+                                    <span class="notif-title">{{ n.titulo }}</span>
+                                    <span class="notif-time">{{ notifService.tiempoRelativo(n.fecha) }}</span>
+                                </div>
+                                <p class="notif-msg">{{ n.mensaje }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cerrar sesión -->
+            <button class="btn-logout d-none d-lg-inline-flex" *ngIf="isLoggedIn" (click)="logout()">
+                <i class="bi bi-box-arrow-right"></i> Salir
+            </button>
+
+            <!-- Login/Registro -->
+            <a class="btn-login d-none d-lg-inline-flex" *ngIf="!isLoggedIn" routerLink="/login">
+                <i class="bi bi-box-arrow-in-right"></i> Ingresar
+            </a>
+            <a class="btn-register d-none d-lg-inline-flex" *ngIf="!isLoggedIn" routerLink="/login">
+                <i class="bi bi-person-plus-fill"></i> Registrarse
+            </a>
+
+            <!-- Hamburguesa móvil -->
+            <button class="btn-hamburger d-lg-none" (click)="toggleMobileMenu()" [class.open]="mobileMenuOpen">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- MENÚ MÓVIL -->
+    <div class="mobile-menu" [class.open]="mobileMenuOpen">
+        <ul class="mobile-nav">
+            <li>
+                <a [routerLink]="isLoggedIn ? '/dashboard' : '/'" (click)="closeMobileMenu()">
+                    <i class="bi bi-house-door-fill"></i> Inicio
+                </a>
+            </li>
+            <li>
+                <a routerLink="/productos" (click)="closeMobileMenu()">
+                    <i class="bi bi-grid-fill"></i> Productos
+                </a>
+            </li>
+            <li>
+                <a routerLink="/ofertas" (click)="closeMobileMenu()">
+                    <i class="bi bi-fire"></i> Ofertas
+                </a>
+            </li>
+            <li>
+                <a routerLink="/tienda" (click)="closeMobileMenu()">
+                    <i class="bi bi-cart-fill"></i> Tienda
+                </a>
+            </li>
+            <li>
+                <a routerLink="/contacto" (click)="closeMobileMenu()">
+                    <i class="bi bi-envelope-fill"></i> Contacto
+                </a>
+            </li>
+            <li *ngIf="isLoggedIn && !isAdmin">
+                <a routerLink="/dashboard" (click)="closeMobileMenu()">
+                    <i class="bi bi-speedometer2"></i> Dashboard
+                </a>
+            </li>
+            <li *ngIf="isAdmin">
+                <a routerLink="/admin" (click)="closeMobileMenu()" style="color: #ef4444;">
+                    <i class="bi bi-shield-lock-fill"></i> Admin
+                </a>
+            </li>
+        </ul>
+
+        <div class="mobile-user" *ngIf="isLoggedIn">
+            <div class="user-info">
+                <div class="user-avatar">{{ user?.name?.charAt(0)?.toUpperCase() }}</div>
+                <div class="user-details">
+                    <div class="user-name">{{ user?.name }}</div>
+                    <div class="user-email">{{ user?.email }}</div>
+                </div>
+            </div>
+            <button class="btn-logout-mobile" (click)="logout()">
+                <i class="bi bi-box-arrow-right"></i> Cerrar sesión
+            </button>
+        </div>
+
+        <div class="mobile-auth" *ngIf="!isLoggedIn">
+            <a routerLink="/login" class="btn-login-mobile" (click)="closeMobileMenu()">
+                <i class="bi bi-box-arrow-in-right"></i> Ingresar
+            </a>
+            <a routerLink="/login" class="btn-register-mobile" (click)="closeMobileMenu()">
+                <i class="bi bi-person-plus-fill"></i> Registrarse
+            </a>
+        </div>
+    </div>
+</nav>

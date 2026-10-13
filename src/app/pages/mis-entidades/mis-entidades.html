@@ -1,0 +1,114 @@
+<section class="py-5" style="background: #f8fafc; min-height: 80vh;">
+    <div class="container" style="max-width: 1000px;">
+
+        <div class="mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <div>
+                <a routerLink="/dashboard" class="text-decoration-none small fw-bold" style="color: #7c3aed;">
+                    <i class="bi bi-arrow-left"></i> Volver al Dashboard
+                </a>
+                <h1 class="fw-bold mb-1 mt-2" style="color: #0f172a; font-size: 1.75rem;">🏦 Mis Entidades</h1>
+                <p class="text-muted mb-0">Vincula tus bancos y billeteras</p>
+            </div>
+            <button (click)="mostrarForm = !mostrarForm" class="btn fw-bold text-white px-4 py-2"
+                    style="background: #7c3aed; border-radius: 12px;">
+                <i class="bi bi-plus-lg"></i> Vincular nueva
+            </button>
+        </div>
+
+        <div class="p-4 mb-4 text-white" style="background: linear-gradient(135deg, #1e1b4b, #4c1d95); border-radius: 20px;">
+            <div style="font-size: 12px; color: #c4b5fd; text-transform: uppercase;">Patrimonio total</div>
+            <div class="fw-bold" style="font-size: 2.5rem;">S/ {{ getSaldoTotal() | number:'1.2-2' }}</div>
+            <div style="font-size: 12px; color: #c4b5fd;">{{ entidades.length }} entidades vinculadas</div>
+        </div>
+
+        <div *ngIf="mostrarForm" class="bg-white p-4 mb-4" style="border-radius: 20px; border: 2px solid #7c3aed;">
+            <h5 class="fw-bold mb-3">Nueva entidad</h5>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold" style="font-size: 12px; text-transform: uppercase;">Banco / Billetera</label>
+                <div class="row g-2">
+                    <div class="col-6 col-md-4" *ngFor="let b of bancosDisponibles">
+                        <button type="button" (click)="cambiarBanco(b.codigo)"
+                                class="btn w-100 text-start"
+                                [style.background]="nuevoCodigo === b.codigo ? '#f5f3ff' : '#f8fafc'"
+                                [style.border]="nuevoCodigo === b.codigo ? '2px solid #7c3aed' : '2px solid #e2e8f0'"
+                                style="border-radius: 10px; padding: .5rem;">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="d-flex align-items-center justify-content-center text-white fw-bold"
+                                     [style.background]="b.color"
+                                     style="width: 32px; height: 32px; border-radius: 8px; font-size: 14px;">
+                                    {{ b.codigo[0] }}
+                                </div>
+                                <span class="fw-bold" style="font-size: 12px;">{{ b.codigo }}</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold" style="font-size: 12px; text-transform: uppercase;">
+                        Número de cuenta <span class="text-muted fw-normal">(auto-generado)</span>
+                    </label>
+                    <input type="text" [value]="nuevoNumero" readonly class="form-control"
+                           style="border-radius: 10px; border: 2px solid #e2e8f0; padding: .75rem 1rem; background: #f8fafc; font-family: monospace;">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold" style="font-size: 12px; text-transform: uppercase;">Saldo inicial (S/)</label>
+                    <input type="number" [(ngModel)]="nuevoSaldo" class="form-control" placeholder="1000"
+                           style="border-radius: 10px; border: 2px solid #e2e8f0; padding: .75rem 1rem;">
+                </div>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button (click)="vincular()" [disabled]="guardando" class="btn fw-bold text-white flex-fill py-3"
+                        style="background: #7c3aed; border-radius: 10px;">
+                    <span *ngIf="!guardando"><i class="bi bi-link-45deg"></i> Vincular entidad</span>
+                    <span *ngIf="guardando"><span class="spinner-border spinner-border-sm"></span> Vinculando...</span>
+                </button>
+                <button (click)="mostrarForm = false" class="btn fw-bold py-3"
+                        style="border: 2px solid #e2e8f0; border-radius: 10px; color: #334155;">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+
+        <div *ngIf="entidades.length === 0" class="bg-white p-5 text-center" style="border-radius: 20px; border: 1px solid #e2e8f0;">
+            <div style="font-size: 3rem;">🏦</div>
+            <p class="text-muted mt-2 mb-0">No tienes entidades vinculadas</p>
+        </div>
+
+        <div class="row g-3" *ngIf="entidades.length > 0">
+            <div class="col-md-6" *ngFor="let e of entidades">
+                <div class="bg-white p-4" 
+                     [style.border-top]="'4px solid ' + (e.color || '#7c3aed')"
+                     style="border-radius: 16px; border: 1px solid #e2e8f0;">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="d-flex align-items-center justify-content-center text-white fw-bold"
+                                 [style.background]="e.color || '#7c3aed'"
+                                 style="width: 44px; height: 44px; border-radius: 12px; font-size: 18px;">
+                                {{ e.codigo ? e.codigo[0] : '?' }}
+                            </div>
+                            <div>
+                                <div class="fw-bold" style="color: #0f172a;">{{ e.codigo }}</div>
+                                <div class="text-muted" style="font-size: 12px; font-family: monospace;">{{ e.numero }}</div>
+                            </div>
+                        </div>
+                        <span *ngIf="e.principal" class="badge" style="background: #fef3c7; color: #92400e;">★ Principal</span>
+                    </div>
+                    <div class="mt-3">
+                        <div class="text-muted" style="font-size: 11px;">SALDO</div>
+                        <div class="fw-bold" style="font-size: 1.5rem; color: #0f172a;">S/ {{ e.saldo | number:'1.2-2' }}</div>
+                    </div>
+                    <button (click)="eliminar(e.id)" class="btn btn-sm w-100 mt-3"
+                            style="color: #ef4444; border: 1px solid #fee2e2; border-radius: 8px;">
+                        <i class="bi bi-trash"></i> Desvincular
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

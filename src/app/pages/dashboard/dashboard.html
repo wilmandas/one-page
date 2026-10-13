@@ -1,0 +1,180 @@
+<section class="py-4" style="min-height: 100vh;">
+    <div class="container" style="max-width: 1100px;">
+
+        <!-- HERO VIBRANTE -->
+        <div class="hero-vibrant">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="bi bi-stars"></i>
+                    BIENVENIDO A ONE-PAGE
+                </div>
+                <h1 class="hero-title">
+                    ¡Hola, <span class="gradient-text">{{ user?.name }}</span>! 👋
+                </h1>
+                <p class="hero-sub">Tu billetera digital · Todas tus cuentas en un solo lugar</p>
+            </div>
+            <div class="hero-emoji">💜</div>
+            <div class="hero-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+            </div>
+        </div>
+
+        <!-- STATS CARDS -->
+        <div class="row g-3 mb-4">
+            <div class="col-6 col-lg-3">
+                <div class="stat-card stat-purple">
+                    <div class="stat-icon">
+                        <i class="bi bi-wallet2"></i>
+                    </div>
+                    <div class="stat-label">Saldo total</div>
+                    <div class="stat-value">S/ {{ saldoTotal | number:'1.2-2' }}</div>
+                    <div class="stat-hint">
+                        <i class="bi bi-arrow-up-right"></i> Disponible
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-lg-3">
+                <div class="stat-card stat-pink">
+                    <div class="stat-icon">
+                        <i class="bi bi-receipt"></i>
+                    </div>
+                    <div class="stat-label">Transacciones</div>
+                    <div class="stat-value">{{ transacciones.length }}</div>
+                    <div class="stat-hint">tus operaciones</div>
+                </div>
+            </div>
+
+            <div class="col-6 col-lg-3">
+                <div class="stat-card stat-orange">
+                    <div class="stat-icon">
+                        <i class="bi bi-bank2"></i>
+                    </div>
+                    <div class="stat-label">Entidades</div>
+                    <div class="stat-value">{{ entidades.length }}</div>
+                    <div class="stat-hint">vinculadas</div>
+                </div>
+            </div>
+
+            <div class="col-6 col-lg-3">
+                <div class="stat-card stat-green">
+                    <div class="stat-icon">
+                        <i class="bi bi-cash-stack"></i>
+                    </div>
+                    <div class="stat-label">Créditos</div>
+                    <div class="stat-value">{{ creditos.length }}</div>
+                    <div class="stat-hint">solicitados</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ACCIONES RÁPIDAS -->
+        <div class="bg-white p-4 mb-4">
+            <h3 class="section-title">
+                <i class="bi bi-lightning-charge-fill" style="color: #fbbf24;"></i>
+                ¿Qué quieres hacer hoy?
+            </h3>
+            <div class="row g-3">
+                <div class="col-6 col-md-3 col-lg">
+                    <a routerLink="/enviar-dinero" class="action-btn action-blue">
+                        <div class="action-icon">
+                            <i class="bi bi-send-fill"></i>
+                        </div>
+                        <div class="action-label">Enviar dinero</div>
+                    </a>
+                </div>
+                <div class="col-6 col-md-3 col-lg">
+                    <a routerLink="/pagar-servicio" class="action-btn action-green">
+                        <div class="action-icon">
+                            <i class="bi bi-receipt-cutoff"></i>
+                        </div>
+                        <div class="action-label">Pagar servicio</div>
+                    </a>
+                </div>
+                <div class="col-6 col-md-3 col-lg">
+                    <a routerLink="/mis-entidades" class="action-btn action-purple">
+                        <div class="action-icon">
+                            <i class="bi bi-bank2"></i>
+                        </div>
+                        <div class="action-label">Mis Entidades</div>
+                    </a>
+                </div>
+                <div class="col-6 col-md-3 col-lg">
+                    <a routerLink="/contactos" class="action-btn action-cyan">
+                        <div class="action-icon">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                        <div class="action-label">Contactos</div>
+                    </a>
+                </div>
+                <div class="col-6 col-md-3 col-lg">
+                    <a routerLink="/historial" class="action-btn action-orange">
+                        <div class="action-icon">
+                            <i class="bi bi-clock-history"></i>
+                        </div>
+                        <div class="action-label">Historial</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- INFO -->
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="bg-white p-4 h-100">
+                    <h3 class="section-title">
+                        <i class="bi bi-person-circle" style="color: #7c3aed;"></i>
+                        Mi cuenta
+                    </h3>
+                    <div class="info-row">
+                        <span class="info-label">Nombre</span>
+                        <span class="info-value">{{ user?.name }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Email</span>
+                        <span class="info-value">{{ user?.email }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Celular</span>
+                        <span class="info-value">{{ user?.phone }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Rol</span>
+                        <span class="badge" [ngClass]="user?.role === 'admin' ? 'bg-danger' : 'bg-primary'">
+                            {{ user?.role === 'admin' ? 'ADMIN' : 'USUARIO' }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="bg-white p-4 h-100">
+                    <h3 class="section-title">
+                        <i class="bi bi-building" style="color: #f97316;"></i>
+                        Mis entidades
+                    </h3>
+                    <div *ngIf="entidades.length === 0" class="text-center py-4">
+                        <div style="font-size: 3rem;">🏦</div>
+                        <p class="text-muted mb-2 mt-2" style="font-size: 13px;">Sin entidades vinculadas</p>
+                        <a routerLink="/mis-entidades" class="btn btn-primary btn-sm">
+                            <i class="bi bi-plus-circle"></i> Vincular ahora
+                        </a>
+                    </div>
+                    <div *ngFor="let e of entidades" class="entity-row">
+                        <div class="entity-badge" [style.background]="e.color || '#7c3aed'">
+                            {{ e.codigo[0] }}
+                        </div>
+                        <div class="entity-info">
+                            <div class="entity-name">{{ e.codigo }}</div>
+                            <div class="entity-num">{{ e.numero }}</div>
+                        </div>
+                        <div class="entity-balance">S/ {{ e.saldo }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

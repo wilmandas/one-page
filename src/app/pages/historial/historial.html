@@ -1,0 +1,100 @@
+<section class="py-5" style="background: #f8fafc; min-height: 80vh;">
+    <div class="container" style="max-width: 1000px;">
+
+        <div class="mb-4">
+            <a routerLink="/dashboard" class="text-decoration-none small fw-bold" style="color: #7c3aed;">
+                <i class="bi bi-arrow-left"></i> Volver al Dashboard
+            </a>
+            <h1 class="fw-bold mb-1 mt-2" style="color: #0f172a; font-size: 1.75rem;">
+                <i class="bi bi-clock-history" style="color: #7c3aed;"></i> Historial
+            </h1>
+            <p class="text-muted mb-0">Todas tus transacciones</p>
+        </div>
+
+        <div class="row g-3 mb-4">
+            <div class="col-6 col-md-4">
+                <div class="bg-white p-3" style="border-radius: 14px; border: 1px solid #e2e8f0;">
+                    <div class="text-muted fw-bold" style="font-size: 11px;">TOTAL TRANSACCIONES</div>
+                    <div class="fw-bold" style="font-size: 1.8rem; color: #0f172a;">{{ transacciones.length }}</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4">
+                <div class="bg-white p-3" style="border-radius: 14px; border: 1px solid #e2e8f0;">
+                    <div class="text-muted fw-bold" style="font-size: 11px;">MONTO TOTAL</div>
+                    <div class="fw-bold" style="font-size: 1.8rem; color: #dc2626;">S/ {{ totalEnviado | number:'1.2-2' }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex gap-2 mb-3 flex-wrap">
+            <button (click)="filtro = 'todos'" class="btn btn-sm fw-bold"
+                    [style.background]="filtro === 'todos' ? '#7c3aed' : '#fff'"
+                    [style.color]="filtro === 'todos' ? '#fff' : '#334155'"
+                    style="border: 1px solid #e2e8f0; border-radius: 10px;">Todos</button>
+            <button (click)="filtro = 'p2p'" class="btn btn-sm fw-bold"
+                    [style.background]="filtro === 'p2p' ? '#7c3aed' : '#fff'"
+                    [style.color]="filtro === 'p2p' ? '#fff' : '#334155'"
+                    style="border: 1px solid #e2e8f0; border-radius: 10px;">P2P</button>
+            <button (click)="filtro = 'pago'" class="btn btn-sm fw-bold"
+                    [style.background]="filtro === 'pago' ? '#7c3aed' : '#fff'"
+                    [style.color]="filtro === 'pago' ? '#fff' : '#334155'"
+                    style="border: 1px solid #e2e8f0; border-radius: 10px;">Pagos servicio</button>
+        </div>
+
+        <div *ngIf="cargando" class="text-center py-5">
+            <div class="spinner-border text-primary"></div>
+        </div>
+
+        <div *ngIf="!cargando && filtradas.length === 0" class="bg-white p-5 text-center" style="border-radius: 16px; border: 1px solid #e2e8f0;">
+            <div style="font-size: 3rem;">📋</div>
+            <p class="text-muted mt-2 mb-0">No hay transacciones</p>
+            <a routerLink="/enviar-dinero" class="btn btn-sm fw-bold text-white mt-3" 
+               style="background: #7c3aed; border-radius: 10px;">
+                <i class="bi bi-send"></i> Hacer un envío
+            </a>
+        </div>
+
+        <div class="bg-white" *ngIf="!cargando && filtradas.length > 0" style="border-radius: 16px; border: 1px solid #e2e8f0; overflow: hidden;">
+            <table class="table table-hover align-middle mb-0">
+                <thead style="background: #f8fafc;">
+                    <tr>
+                        <th class="px-3 py-2">Tipo</th>
+                        <th class="px-3 py-2">Destino</th>
+                        <th class="px-3 py-2">Concepto</th>
+                        <th class="px-3 py-2 text-end">Monto</th>
+                        <th class="px-3 py-2 text-center">Estado</th>
+                        <th class="px-3 py-2 text-end">Fecha</th>
+                        <th class="px-3 py-2 text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let t of filtradas">
+                        <td class="px-3 py-2 fw-bold">{{ t.tipo }}</td>
+                        <td class="px-3 py-2">{{ t.destino }}</td>
+                        <td class="px-3 py-2 text-muted small">{{ t.concepto || '—' }}</td>
+                        <td class="px-3 py-2 text-end fw-bold" style="color: #dc2626;">- S/ {{ t.monto | number:'1.2-2' }}</td>
+                        <td class="px-3 py-2 text-center"><span class="badge bg-success">{{ t.estado }}</span></td>
+                        <td class="px-3 py-2 text-end text-muted small">{{ t.fecha }}</td>
+                        <td class="px-3 py-2 text-center">
+                            <div class="d-flex gap-1 justify-content-center">
+                                <button (click)="verDetalle(t)" 
+                                        class="btn btn-sm" 
+                                        title="Ver detalle"
+                                        style="background: #ede9fe; color: #7c3aed; border-radius: 8px;">
+                                    <i class="bi bi-eye-fill"></i>
+                                </button>
+                                <button (click)="descargarPDF(t)" 
+                                        class="btn btn-sm" 
+                                        title="Descargar PDF"
+                                        style="background: #d1fae5; color: #059669; border-radius: 8px;">
+                                    <i class="bi bi-file-earmark-pdf-fill"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</section>

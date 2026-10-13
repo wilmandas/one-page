@@ -1,0 +1,190 @@
+<section class="login-wrapper">
+    <div class="login-container">
+        
+        <!-- LADO IZQUIERDO: HERO -->
+        <div class="login-hero">
+            <div class="hero-content">
+                <div class="hero-logo">
+                    <div class="logo-icon">O</div>
+                    <div>
+                        <div class="logo-brand">ONE-PAGE</div>
+                        <div class="logo-tagline">Tu billetera universal</div>
+                    </div>
+                </div>
+
+                <h1 class="hero-title">
+                    La forma más fácil<br>de manejar tu dinero
+                </h1>
+                <p class="hero-desc">
+                    Vincula todos tus bancos y billeteras en un solo lugar.
+                </p>
+
+                <div class="hero-features">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <div>
+                            <div class="feature-title">100% Seguro</div>
+                            <div class="feature-desc">Cifrado de nivel bancario</div>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="bi bi-lightning-charge-fill"></i>
+                        </div>
+                        <div>
+                            <div class="feature-title">Pagos al instante</div>
+                            <div class="feature-desc">24/7 los 365 días del año</div>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="bi bi-bank2"></i>
+                        </div>
+                        <div>
+                            <div class="feature-title">Todos tus bancos</div>
+                            <div class="feature-desc">BCP, Interbank, Yape, Plin y más</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-banks">
+                    <span class="bank-chip">BCP</span>
+                    <span class="bank-chip">Interbank</span>
+                    <span class="bank-chip">Yape</span>
+                    <span class="bank-chip">Plin</span>
+                    <span class="bank-chip">+6 más</span>
+                </div>
+            </div>
+
+            <div class="hero-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+            </div>
+        </div>
+
+        <!-- LADO DERECHO: FORMULARIO -->
+        <div class="login-form-side">
+            <div class="form-inner">
+                
+                <div class="form-header">
+                    <h2 class="form-title">{{ modoRegistro ? 'Crear cuenta' : 'Bienvenido de vuelta' }}</h2>
+                    <p class="form-sub">{{ modoRegistro ? 'Completa tus datos para comenzar' : 'Ingresa a tu cuenta' }}</p>
+                </div>
+
+                <div *ngIf="error" class="alert mb-3" 
+                     [ngClass]="error.includes('✅') ? 'alert-success' : 'alert-danger'"
+                     style="font-size: 13px;">
+                    {{ error }}
+                </div>
+
+                <!-- LOGIN -->
+                <div *ngIf="!modoRegistro">
+                    <div class="mb-3">
+                        <label class="form-label">Correo electrónico</label>
+                        <div class="input-with-icon">
+                            <i class="bi bi-envelope-fill input-icon"></i>
+                            <input type="email" [(ngModel)]="email" class="form-control" 
+                                   placeholder="tu@email.com" autocomplete="email">
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Contraseña</label>
+                        <div class="input-with-icon">
+                            <i class="bi bi-lock-fill input-icon"></i>
+                            <input type="password" [(ngModel)]="password" class="form-control" 
+                                   placeholder="••••••••" autocomplete="current-password">
+                        </div>
+                    </div>
+
+                    <button (click)="onSubmit()" [disabled]="loading" class="btn btn-primary w-100 py-3 btn-login">
+                        <span *ngIf="!loading"><i class="bi bi-box-arrow-in-right"></i> Iniciar sesión</span>
+                        <span *ngIf="loading"><span class="spinner-border spinner-border-sm"></span> Entrando...</span>
+                    </button>
+
+                    <div class="form-divider">
+                        <span>¿Nuevo en ONE-PAGE?</span>
+                    </div>
+
+                    <button (click)="modoRegistro = true; error = ''" class="btn btn-secondary-action w-100 py-3">
+                        <i class="bi bi-person-plus-fill"></i> Crear cuenta nueva
+                    </button>
+                </div>
+
+                <!-- REGISTRO -->
+                <div *ngIf="modoRegistro">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label">Nombre completo</label>
+                            <div class="input-with-icon">
+                                <i class="bi bi-person-fill input-icon"></i>
+                                <input type="text" [(ngModel)]="regNombre" class="form-control" 
+                                       placeholder="Juan Pérez">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Correo electrónico</label>
+                            <div class="input-with-icon">
+                                <i class="bi bi-envelope-fill input-icon"></i>
+                                <input type="email" [(ngModel)]="regEmail" class="form-control" 
+                                       placeholder="tu@email.com">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Celular</label>
+                            <div class="input-with-icon">
+                                <i class="bi bi-phone-fill input-icon"></i>
+                                <input type="text" [(ngModel)]="regPhone" class="form-control" 
+                                       placeholder="987 654 321">
+                            </div>
+                        </div>
+
+                        <!-- SELECTOR DE GÉNERO -->
+                        <div class="col-12">
+                            <label class="form-label">Género</label>
+                            <div class="gender-grid">
+                                <label class="gender-card gender-male" [class.selected]="regGenero === 'masculino'">
+                                    <input type="radio" name="genero" value="masculino" [(ngModel)]="regGenero">
+                                    <div class="gender-icon-wrap">
+                                        <i class="bi bi-gender-male"></i>
+                                    </div>
+                                    <div class="gender-name">Hombre</div>
+                                </label>
+                                <label class="gender-card gender-female" [class.selected]="regGenero === 'femenino'">
+                                    <input type="radio" name="genero" value="femenino" [(ngModel)]="regGenero">
+                                    <div class="gender-icon-wrap">
+                                        <i class="bi bi-gender-female"></i>
+                                    </div>
+                                    <div class="gender-name">Mujer</div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Contraseña</label>
+                            <div class="input-with-icon">
+                                <i class="bi bi-lock-fill input-icon"></i>
+                                <input type="password" [(ngModel)]="regPassword" class="form-control" 
+                                       placeholder="Mínimo 6 caracteres">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button (click)="registrar()" [disabled]="loading" class="btn btn-primary w-100 py-3 mt-4">
+                        <span *ngIf="!loading"><i class="bi bi-person-check-fill"></i> Crear mi cuenta</span>
+                        <span *ngIf="loading"><span class="spinner-border spinner-border-sm"></span> Creando...</span>
+                    </button>
+
+                    <button (click)="modoRegistro = false; error = ''" class="btn btn-secondary-action w-100 py-3 mt-2">
+                        <i class="bi bi-arrow-left"></i> Volver al login
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>

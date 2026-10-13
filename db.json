@@ -1,0 +1,435 @@
+{
+  "usuarios": [
+    {
+      "id": 1,
+      "nombre": "Benito Ruiz",
+      "email": "benito@test.com",
+      "password": "123456",
+      "phone": "987654321",
+      "role": "user",
+      "activo": true
+    },
+    {
+      "id": 2,
+      "nombre": "Alexander Aley",
+      "email": "alexander@test.com",
+      "password": "123456",
+      "phone": "955035628",
+      "role": "user",
+      "activo": true
+    },
+    {
+      "id": 3,
+      "nombre": "Admin ONE-PAGE",
+      "email": "admin@onepage.pe",
+      "password": "admin123",
+      "phone": "999111222",
+      "role": "admin",
+      "activo": true
+    },
+    {
+      "id": 4,
+      "nombre": "Demo",
+      "email": "demo@onepage.pe",
+      "password": "demo123",
+      "phone": "999888777",
+      "role": "user",
+      "activo": true
+    }
+  ],
+  "productos": [
+    {
+      "id": 1,
+      "nombre": "Laptop Gamer ASUS",
+      "imagen": "https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=400",
+      "categoria": "Tecnología",
+      "precio": 4500,
+      "stock": 12,
+      "descuento": 0,
+      "descripcion": "Laptop gaming de alta gama"
+    },
+    {
+      "id": 2,
+      "nombre": "Mouse Logitech MX",
+      "imagen": "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400",
+      "categoria": "Tecnología",
+      "precio": 189,
+      "stock": 45,
+      "descuento": 0,
+      "descripcion": "Mouse inalámbrico premium"
+    },
+    {
+      "id": 3,
+      "nombre": "Teclado Mecánico RGB",
+      "imagen": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400",
+      "categoria": "Tecnología",
+      "precio": 350,
+      "stock": 30,
+      "descuento": 0,
+      "descripcion": "Teclado mecánico para gamers"
+    },
+    {
+      "id": 4,
+      "nombre": "Audífonos Sony WH",
+      "imagen": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400",
+      "categoria": "Audio",
+      "precio": 899,
+      "stock": 20,
+      "descuento": 0,
+      "descripcion": "Audífonos con cancelación de ruido"
+    },
+    {
+      "id": 5,
+      "nombre": "Smartwatch Apple",
+      "imagen": "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400",
+      "categoria": "Wearables",
+      "precio": 1299,
+      "stock": 15,
+      "descuento": 0,
+      "descripcion": "Reloj inteligente serie 9"
+    },
+    {
+      "id": 6,
+      "nombre": "Cargador Rápido 65W",
+      "imagen": "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=400",
+      "categoria": "Accesorios",
+      "precio": 89,
+      "stock": 60,
+      "descuento": 0,
+      "descripcion": "Cargador universal USB-C"
+    },
+    {
+      "id": 7,
+      "nombre": "Auriculares Xiaomi",
+      "imagen": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400",
+      "categoria": "Audio",
+      "precio": 299,
+      "stock": 40,
+      "descuento": 30,
+      "descripcion": "Auriculares inalámbricos"
+    },
+    {
+      "id": 8,
+      "nombre": "Tablet Samsung",
+      "imagen": "https://images.unsplash.com/photo-1561154464-82e9adf32764?w=400",
+      "categoria": "Tecnología",
+      "precio": 1599,
+      "stock": 8,
+      "descuento": 20,
+      "descripcion": "Tablet Galaxy Tab S9"
+    },
+    {
+      "id": 9,
+      "nombre": "Parlante JBL",
+      "imagen": "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400",
+      "categoria": "Audio",
+      "precio": 499,
+      "stock": 25,
+      "descuento": 50,
+      "descripcion": "Parlante bluetooth portátil"
+    },
+    {
+      "id": 10,
+      "nombre": "Cámara Canon",
+      "imagen": "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=400",
+      "categoria": "Fotografía",
+      "precio": 2899,
+      "stock": 5,
+      "descuento": 25,
+      "descripcion": "Cámara réflex profesional"
+    },
+    {
+      "id": 11,
+      "nombre": "Mochila Porta Laptop",
+      "imagen": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400",
+      "categoria": "Accesorios",
+      "precio": 179,
+      "stock": 55,
+      "descuento": 0,
+      "descripcion": "Mochila antirrobo"
+    },
+    {
+      "id": 12,
+      "nombre": "Monitor LG 27\"",
+      "imagen": "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400",
+      "categoria": "Tecnología",
+      "precio": 1199,
+      "stock": 18,
+      "descuento": 0,
+      "descripcion": "Monitor 4K UHD"
+    }
+  ],
+  "creditos": [
+    {
+      "id": 1,
+      "userId": 1,
+      "usuario": "Benito Ruiz",
+      "monto": 5000,
+      "plazo": 24,
+      "tasa": 18,
+      "motivo": "Compra de laptop",
+      "estado": "aprobado"
+    },
+    {
+      "id": 2,
+      "userId": 2,
+      "usuario": "Alexander Aley",
+      "monto": 3000,
+      "plazo": 12,
+      "tasa": 16,
+      "motivo": "Capital de trabajo",
+      "estado": "aprobado"
+    }
+  ],
+  "transacciones": [
+    {
+      "userId": 1791661983475,
+      "usuario": "Alexander Yeison Aley Prieto",
+      "tipo": "P2P",
+      "monto": 1,
+      "destino": "9902787416",
+      "concepto": "prueba",
+      "estado": "completado",
+      "fecha": "2026-10-10",
+      "id": 1
+    },
+    {
+      "userId": 1791661983475,
+      "usuario": "Alexander Yeison Aley Prieto",
+      "tipo": "P2P",
+      "monto": 1,
+      "destino": "7565741957",
+      "concepto": "prueba",
+      "estado": "completado",
+      "fecha": "2026-10-11",
+      "id": 2
+    },
+    {
+      "userId": 1791661983475,
+      "usuario": "Alexander Yeison Aley Prieto",
+      "tipo": "P2P",
+      "monto": 1,
+      "destino": "Benito Ruiz",
+      "concepto": "",
+      "estado": "completado",
+      "fecha": "2026-10-11",
+      "id": 3
+    },
+    {
+      "userId": 1791661983475,
+      "usuario": "Alexander Yeison Aley Prieto",
+      "tipo": "P2P",
+      "monto": 100,
+      "destino": "Benito Ruiz",
+      "concepto": "dauda",
+      "estado": "completado",
+      "fecha": "2026-10-11",
+      "id": 4
+    },
+    {
+      "userId": 1791661983475,
+      "usuario": "Alexander Yeison Aley Prieto",
+      "tipo": "P2P",
+      "monto": 50,
+      "destino": "Benito Ruiz",
+      "concepto": "",
+      "estado": "completado",
+      "fecha": "2026-10-11",
+      "id": 5
+    },
+    {
+      "userId": 1,
+      "usuario": "Benito Ruiz",
+      "tipo": "P2P",
+      "monto": 500,
+      "destino": "57862734",
+      "concepto": "",
+      "estado": "completado",
+      "fecha": "2026-10-11",
+      "id": 6
+    },
+    {
+      "userId": 1,
+      "usuario": "Benito Ruiz",
+      "tipo": "P2P",
+      "monto": 550,
+      "destino": "57862734",
+      "concepto": "",
+      "estado": "completado",
+      "fecha": "2026-10-11",
+      "id": 7
+    },
+    {
+      "userId": 1,
+      "usuario": "Benito Ruiz",
+      "tipo": "P2P",
+      "monto": 1,
+      "destino": " 8206394049",
+      "concepto": "",
+      "estado": "completado",
+      "fecha": "2026-10-11",
+      "id": 8
+    },
+    {
+      "userId": 1,
+      "usuario": "Benito Ruiz",
+      "tipo": "P2P",
+      "monto": 1,
+      "destino": "1457862734",
+      "concepto": "",
+      "estado": "completado",
+      "fecha": "2026-10-11",
+      "id": 9
+    },
+    {
+      "userId": 1,
+      "usuario": "Benito Ruiz",
+      "tipo": "P2P",
+      "monto": 100,
+      "destino": "1457862734",
+      "concepto": "",
+      "estado": "completado",
+      "fecha": "2026-10-11",
+      "id": 10
+    },
+    {
+      "userId": 1,
+      "usuario": "Benito Ruiz",
+      "tipo": "P2P",
+      "monto": 2,
+      "destino": "8206394049",
+      "concepto": "",
+      "estado": "completado",
+      "fecha": "2026-10-11",
+      "id": 11
+    },
+    {
+      "userId": 1,
+      "usuario": "Benito Ruiz",
+      "tipo": "P2P",
+      "monto": 100,
+      "destino": "8206394049",
+      "concepto": "",
+      "estado": "completado",
+      "fecha": "2026-10-11",
+      "id": 12
+    },
+    {
+      "userId": 1791661983475,
+      "usuario": "Alexander Yeison Aley Prieto",
+      "tipo": "P2P",
+      "monto": 1000,
+      "destino": "Benito Ruiz",
+      "concepto": "deuda",
+      "estado": "completado",
+      "fecha": "2026-10-11",
+      "id": 13
+    },
+    {
+      "userId": 1791661983475,
+      "usuario": "Alexander Yeison Aley Prieto",
+      "tipo": "Pago servicio",
+      "monto": 33,
+      "destino": "Luz del Sur",
+      "concepto": "Recibo 9853245",
+      "estado": "completado",
+      "fecha": "2026-10-11",
+      "id": 14
+    },
+    {
+      "userId": 1791661983475,
+      "usuario": "Alexander Yeison Aley Prieto",
+      "tipo": "Pago servicio",
+      "monto": 12,
+      "destino": "Movistar",
+      "concepto": "Recibo 986452",
+      "estado": "completado",
+      "fecha": "2026-10-11",
+      "id": 15
+    },
+    {
+      "userId": 1,
+      "usuario": "Benito Ruiz",
+      "tipo": "Pago servicio",
+      "monto": 120,
+      "destino": "Luz del Sur",
+      "concepto": "Recibo 45687922",
+      "estado": "completado",
+      "fecha": "2026-10-13",
+      "id": 16
+    },
+    {
+      "userId": 1,
+      "usuario": "Benito Ruiz",
+      "tipo": "Pago servicio",
+      "monto": 200,
+      "destino": "Sedapal",
+      "concepto": "Recibo 558611",
+      "estado": "completado",
+      "fecha": "2026-10-13",
+      "id": 17
+    }
+  ],
+  "entidades": [
+    {
+      "userId": 1,
+      "codigo": "BCP",
+      "nombre": "Banco de Crédito",
+      "numero": "7565741957",
+      "saldo": 797,
+      "principal": true,
+      "color": "#FF6B00",
+      "id": 1
+    },
+    {
+      "userId": 1,
+      "codigo": "YAPE",
+      "nombre": "Yape",
+      "numero": "9902787416",
+      "saldo": 0,
+      "principal": false,
+      "color": "#6D28D9",
+      "id": 2
+    },
+    {
+      "userId": 1791661983475,
+      "codigo": "YAPE",
+      "nombre": "Yape",
+      "numero": "8206394049",
+      "saldo": 2000,
+      "principal": true,
+      "color": "#6D28D9",
+      "id": 3
+    },
+    {
+      "userId": 1,
+      "codigo": "BBVA",
+      "nombre": "BBVA",
+      "numero": "5361920850",
+      "saldo": 1000,
+      "principal": false,
+      "color": "#004481",
+      "id": 4
+    },
+    {
+      "userId": 1791661983475,
+      "codigo": "SCOTIABANK",
+      "nombre": "Scotiabank",
+      "numero": "1457862734",
+      "saldo": 9051,
+      "principal": false,
+      "color": "#EC111A",
+      "id": 5
+    },
+    {
+      "userId": 1791661983475,
+      "codigo": "BBVA",
+      "nombre": "BBVA",
+      "numero": "3411044777",
+      "saldo": 5000,
+      "principal": false,
+      "color": "#004481",
+      "id": 6
+    }
+  ]
+}
